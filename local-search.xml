@@ -4,11 +4,11 @@
   
   
   <entry>
-    <title>test_post</title>
+    <title>change_post</title>
     <link href="/2024/11/25/test-post/"/>
     <url>/2024/11/25/test-post/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<p>this is the test post.</p>]]></content>
     
     
     
