@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://whi4ed0g.xyz/images/1.png">
 <meta property="og:image" content="http://whi4ed0g.xyz/images/2.png">
 <meta property="article:published_time" content="2025-02-25T06:27:12.827Z">
-<meta property="article:modified_time" content="2025-02-28T07:38:09.450Z">
+<meta property="article:modified_time" content="2025-03-03T05:41:18.399Z">
 <meta property="article:author" content="whi4ed0g">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://whi4ed0g.xyz/images/1.png">
@@ -100,7 +100,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>Fluid</strong>
+      <strong>abc</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -236,7 +236,7 @@
         
         
         
-          38 分钟
+          39 分钟
         
       </span>
     
@@ -310,6 +310,7 @@
 <p>那么现在，我们有栈上地址和一个无限的溢出了，还差一个libc的地址。</p>
 <p>这里我是使用了%*d这个格式化字符串来泄露出_IO_2_1_stdin_的地址。<br>（这个方法的详细解释可以参考这个文章：[一种关于格式化字符串的新利用](<a target="_blank" rel="noopener" href="https://www.cnblogs.com/viol1t-cheny/articles/18547503#exp%EF%BC%89">https://www.cnblogs.com/viol1t-cheny/articles/18547503#exp）</a></p>
 <p>简单来说，在%*d中，*代表第二个参数，控制输出的宽度，这个参数在调用约定中所使用的寄存器是rsi，而此时rsi是一个很大的值，会填满缓冲区，之后再输入%s，就会输出栈上的内容。这里我得到的就是stdin的地址了。</p>
+<p>但其实不太建议使用这个方法，因为往往rsi都是一个非常大数，会接收到很多的数据，导致在打远程时可能需要很长时间（我自己打的时候跑一次远程大概要半个小时。。。）</p>
 <p>这里还要注意，libc的最高位不一定都是0x7f，可能是其他的例如0x78，0x76等，我之前一直认为libc最高位都是0x7f。（感谢1SEz师傅的提醒）</p>
 <p>之后再利用那个无限的栈溢出，就可以直接打ROP来getshell了。</p>
 <p>exp：</p>
