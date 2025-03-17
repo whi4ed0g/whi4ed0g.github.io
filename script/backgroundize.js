@@ -17,7 +17,10 @@ function setBackgroundImage(themeMode) {
   const webBgElement = document.querySelector('#web_bg');
 
   if (isMobile) {
-    webBgElement.style.backgroundImage = `var(--mobile-bg-image)`;
+    // 根据主题模式动态切换移动端背景图片
+    webBgElement.style.backgroundImage = themeMode === 'dark'
+      ? 'var(--mobile-bg-image-dark)'
+      : 'var(--mobile-bg-image-light)';
   } else if (themeMode === 'dark') {
     webBgElement.style.backgroundImage = `var(--desktop-bg-image-night)`;
   } else {
@@ -68,11 +71,3 @@ window.addEventListener('resize', () => {
   passive: true // 防止默认事件
 });
 
-
-/** 
-—— 转载请注明出处！
-—— 原文作者：4rozeN
-—— 原文标题：fluid 全屏背景图随日夜模式切换和正文底页毛玻璃效果
-—— 原文链接：https://4rozen.github.io/archives/Hexo/60191.html
-—— 原文字数：1.1k 字
-*/

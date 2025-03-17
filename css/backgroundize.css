@@ -1,10 +1,14 @@
 :root {
-  --mobile-bg-image: url('https://whi4ed0g.github.io/img/bg/eva_mobile.jpg');
-  --desktop-bg-image-normal: url('https://whi4ed0g.github.io/img/bg/eva.jpg');
-  --desktop-bg-image-night: url('https://whi4ed0g.github.io/img/bg/Mei.jpg');
+  /* 为移动端添加深色和浅色两种背景图片变量 */
+  --mobile-bg-image-light: url('D:\hexo_blog\blog\source\images\light.png');
+  --mobile-bg-image-dark: url('D:\hexo_blog\blog\source\images\dark.png');
+  
+  --desktop-bg-image-normal: url('D:\hexo_blog\blog\source\images\light.png');
+  --desktop-bg-image-night: url('D:\hexo_blog\blog\source\images\dark.png');
 }
 
 #web_bg {
+  /* 默认背景图片使用桌面浅色模式 */
   background-image: var(--desktop-bg-image-normal);
   position: fixed;
   width: 100%;
@@ -14,4 +18,3 @@
   /* 添加过渡效果 */
   transition: all 0.5s;
 }
-
