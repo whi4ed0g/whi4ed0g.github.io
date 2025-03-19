@@ -5,7 +5,7 @@
 function getThemeMode() {
   let theme = localStorage.getItem('Fluid_Color_Scheme');
   if (!theme) {
-    theme = 'dark'; // 默认使用浅色模式
+    theme = 'light'; 
     localStorage.setItem('Fluid_Color_Scheme', theme);
   }
   console.log('当前主题模式为：', theme);
