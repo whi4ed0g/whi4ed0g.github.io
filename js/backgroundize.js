@@ -1,13 +1,16 @@
 /**
- * 获取当前的主题模式（'dark' 或 'light'）
+ * 获取当前主题模式 ('dark' 或 'light')
  * @returns {string} 当前的主题模式
  */
 function getThemeMode() {
-  let theme = localStorage.getItem('Fluid_Color_Scheme');
+  let theme = localStorage.getItem('Fluid_Color_Scheme'); // 读取存储的主题模式
+
   if (!theme) {
     theme = 'light'; // 默认浅色模式
     localStorage.setItem('Fluid_Color_Scheme', theme);
   }
+
+  console.log('当前主题模式为：', theme);
   return theme;
 }
 
@@ -17,12 +20,19 @@ function getThemeMode() {
  */
 function setThemeMode(newTheme) {
   localStorage.setItem('Fluid_Color_Scheme', newTheme);
-  document.documentElement.setAttribute('data-theme', newTheme); // 可能用于其他样式适配
-  setBackgroundImage(newTheme);
+  
+  // **强制重新读取，确保 localStorage 立即生效**
+  let updatedTheme = localStorage.getItem('Fluid_Color_Scheme');
+  console.log('更新后的主题模式为：', updatedTheme);
+
+  // 直接修改 HTML 标签上的 data-theme
+  document.documentElement.setAttribute('data-theme', updatedTheme);
+
+  setBackgroundImage(updatedTheme);
 }
 
 /**
- * 根据主题模式和设备类型设置背景图片
+ * 设置背景图片
  * @param {String} themeMode - 'light' 或 'dark'
  */
 function setBackgroundImage(themeMode) {
@@ -44,16 +54,16 @@ function setBackgroundImage(themeMode) {
 }
 
 /**
- * 初始化背景图片设置
+ * 初始化主题模式
  */
 function initBackground() {
   const theme = getThemeMode();
-  document.documentElement.setAttribute('data-theme', theme); // 适配主题
+  document.documentElement.setAttribute('data-theme', theme);
   setBackgroundImage(theme);
 }
 
 /**
- * 处理主题切换
+ * 主题切换
  */
 function toggleTheme() {
   const currentTheme = getThemeMode();
@@ -63,33 +73,12 @@ function toggleTheme() {
   console.log(`主题已切换为: ${newTheme}`);
 }
 
-/**
- * 重置 Banner 样式，隐藏背景图片和遮罩层
- */
-function resetBannerStyles() {
-  const banner = document.querySelector("#banner");
-  const mask = document.querySelector("#banner .mask");
-
-  if (banner) banner.style.backgroundImage = 'none';
-  if (mask) mask.style.backgroundColor = 'rgba(0,0,0,0)';
-}
-
-// 监听主题切换按钮点击事件
+// 页面加载后初始化
 document.addEventListener("DOMContentLoaded", () => {
   initBackground();
-  resetBannerStyles();
 
   const themeBtn = document.querySelector('#color-toggle-btn');
   if (themeBtn) {
     themeBtn.addEventListener('click', toggleTheme);
   }
 });
-
-// 监听窗口大小变化，调整背景
-let resizeTimeout;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => {
-    setBackgroundImage(getThemeMode());
-  }, 200);
-}, { passive: true });
