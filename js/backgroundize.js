@@ -1,86 +1,82 @@
-/**
- * 获取当前主题模式 ('dark' 或 'light')
- * @returns {string} 当前主题模式
- */
+// ========== 主题管理核心逻辑 ==========
 function getThemeMode() {
-  const theme = localStorage.getItem('Fluid_Color_Scheme');
-  console.log('当前主题模式为：', theme);
+  const theme = localStorage.getItem('Fluid_Color_Scheme') || 'light'; // 默认值移到获取时
+  console.log('[状态] 当前主题模式为：', theme);
   return theme;
 }
 
-/**
- * 设置主题模式并更新 localStorage
- * @param {string} newTheme - 目标主题（'light' 或 'dark'）
- */
 function setThemeMode(newTheme) {
+  if (!['light', 'dark'].includes(newTheme)) {
+    console.error('非法主题值:', newTheme);
+    return;
+  }
+  
   localStorage.setItem('Fluid_Color_Scheme', newTheme);
   const updatedTheme = localStorage.getItem('Fluid_Color_Scheme');
-  console.log('更新后的主题模式为：', updatedTheme);
+  
+  if (updatedTheme !== newTheme) {
+    console.error('[严重错误] 存储不一致！预期:', newTheme, '实际:', updatedTheme);
+    return;
+  }
+  
+  console.log('[操作] 更新后的主题模式为：', updatedTheme);
   document.documentElement.setAttribute('data-theme', updatedTheme);
   setBackgroundImage(updatedTheme);
 }
 
-/**
- * 根据主题模式和设备类型设置背景图片
- * @param {String} themeMode - 'light' 或 'dark'
- */
-function setBackgroundImage(themeMode) {
-  const isMobile = window.innerWidth < 768;
-  const webBgElement = document.querySelector('#web_bg');
+// ========== 事件监听 ==========
+let isListenerBound = false; // 防止重复绑定
 
-  if (!webBgElement) {
-    console.error('❌ 未找到 #web_bg 元素');
+function initThemeListener() {
+  const themeBtn = document.querySelector('#color-toggle-btn');
+  
+  if (!themeBtn) {
+    console.warn('⚠️ 未找到主题切换按钮');
     return;
   }
-
-  if (isMobile) {
-    webBgElement.style.backgroundImage = themeMode === 'dark'
-      ? 'var(--mobile-bg-image-dark)'
-      : 'var(--mobile-bg-image-light)';
-  } else {
-    webBgElement.style.backgroundImage = themeMode === 'dark'
-      ? 'var(--desktop-bg-image-night)'
-      : 'var(--desktop-bg-image-normal)';
+  
+  if (isListenerBound) {
+    console.warn('⚠️ 监听器已绑定，跳过重复操作');
+    return;
   }
-
-  console.log(`背景已更新为 ${themeMode} 模式`);
-}
-
-/**
- * 初始化背景图片设置（包含默认值初始化）
- */
-function initBackground() {
-  let theme = getThemeMode();
-  if (!theme) {
-    theme = 'light';
-    localStorage.setItem('Fluid_Color_Scheme', theme);
-  }
-  setBackgroundImage(theme);
-}
-
-/**
- * 监听主题切换按钮点击事件
- */
-const themeBtn = document.querySelector('#color-toggle-btn');
-if (themeBtn) {
-  themeBtn.addEventListener('click', () => {
+  
+  function handleThemeToggle() {
     const currentTheme = getThemeMode();
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    console.groupCollapsed(`[事件] 主题切换请求 (${newTheme})`);
     setThemeMode(newTheme);
-    console.log(`主题已切换为: ${newTheme}`);
-  });
-} else {
-  console.warn('⚠️ 未找到 #color-toggle-btn 按钮');
+    console.log(`[完成] 主题已切换为: ${newTheme}`);
+    console.groupEnd();
+  }
+  
+  themeBtn.addEventListener('click', handleThemeToggle);
+  isListenerBound = true;
+  console.log('[初始化] 主题按钮监听器已绑定');
 }
 
-// 初始化背景
-initBackground();
+// ========== 初始化 ==========
+function initBackground() {
+  if (!localStorage.getItem('Fluid_Color_Scheme')) {
+    localStorage.setItem('Fluid_Color_Scheme', 'light');
+    console.log('[初始化] 设置默认主题为 light');
+  }
+  setBackgroundImage(getThemeMode());
+}
 
-// 监听窗口大小变化（防抖处理）
-let resizeTimeout;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => {
-    setBackgroundImage(getThemeMode());
-  }, 200);
-}, { passive: true });
+// 主初始化流程
+function mainInit() {
+  initBackground();
+  initThemeListener();
+  
+  // 防抖处理窗口resize
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      setBackgroundImage(getThemeMode());
+    }, 200);
+  }, { passive: true });
+}
+
+// 启动
+mainInit();
