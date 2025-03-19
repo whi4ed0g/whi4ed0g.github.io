@@ -1,21 +1,30 @@
+/**
+ * 返回当前的主题模式（'dark' 或 'light'）
+ * @returns {string} 当前的主题模式
+ */
 function getThemeMode() {
   let theme = localStorage.getItem('Fluid_Color_Scheme');
   if (!theme) {
-    theme = 'light';
+    theme = 'light'; // 默认使用浅色模式
     localStorage.setItem('Fluid_Color_Scheme', theme);
   }
   console.log('当前主题模式为：', theme);
   return theme;
 }
 
+/**
+ * 根据主题模式和设备类型设置背景图片
+ * @param {String} themeMode - 'light' 或 'dark'
+ */
 function setBackgroundImage(themeMode) {
+  const isMobile = window.innerWidth < 768;
   const webBgElement = document.querySelector('#web_bg');
+
   if (!webBgElement) {
     console.error("Error: #web_bg 元素未找到！");
     return;
   }
 
-  const isMobile = window.innerWidth < 768;
   if (isMobile) {
     webBgElement.style.backgroundImage =
       themeMode === 'dark' ? 'var(--mobile-bg-image-dark)' : 'var(--mobile-bg-image-light)';
@@ -25,18 +34,30 @@ function setBackgroundImage(themeMode) {
   }
 }
 
+/**
+ * 初始化背景图片设置
+ */
+function initBackground() {
+  const theme = getThemeMode();
+  setBackgroundImage(theme);
+}
+
+/**
+ * 处理主题切换
+ */
 function toggleTheme() {
   let currentTheme = getThemeMode();
   let newTheme = currentTheme === 'light' ? 'dark' : 'light';
 
+  // 更新 localStorage 并重新设置背景
   localStorage.setItem('Fluid_Color_Scheme', newTheme);
   console.log('更新后的主题模式为：', newTheme);
-
-  setTimeout(() => {
-    setBackgroundImage(newTheme);
-  }, 50);
+  setBackgroundImage(newTheme);
 }
 
+/**
+ * 重置 Banner 样式，隐藏背景图片和遮罩层
+ */
 function resetBannerStyles() {
   let banner = document.querySelector("#banner");
   let mask = document.querySelector("#banner .mask");
@@ -45,26 +66,44 @@ function resetBannerStyles() {
   if (mask) mask.style.backgroundColor = 'rgba(0,0,0,0)';
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const webBgElement = document.querySelector('#web_bg');
-  if (!webBgElement) {
-    console.error("Error: #web_bg 元素未正确加载！");
-    return;
-  }
-  initBackground();
-  resetBannerStyles();
-});
-
+// 监听主题切换按钮点击事件
 const themeBtn = document.querySelector('#color-toggle-btn');
 if (themeBtn) {
   themeBtn.addEventListener('click', toggleTheme);
 }
 
+// 初始化背景和样式
+document.addEventListener("DOMContentLoaded", () => {
+  initBackground();
+  resetBannerStyles();
+});
+
+// 监听窗口大小变化，调整背景
 let resizeTimeout;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
-    let currentTheme = localStorage.getItem('Fluid_Color_Scheme') || 'light';
-    setBackgroundImage(currentTheme);
+    setBackgroundImage(getThemeMode());
   }, 200);
 }, { passive: true });
+
+
+:root {
+  /* 移动端背景 */
+  --mobile-bg-image-light: url('https://raw.githubusercontent.com/whi4ed0g/whi4ed0g.github.io/main/images/light.png');
+  --mobile-bg-image-dark: url('https://raw.githubusercontent.com/whi4ed0g/whi4ed0g.github.io/main/images/dark.png');
+
+  /* 桌面端背景 */
+  --desktop-bg-image-normal: url('https://raw.githubusercontent.com/whi4ed0g/whi4ed0g.github.io/main/images/light.png');
+  --desktop-bg-image-night: url('https://raw.githubusercontent.com/whi4ed0g/whi4ed0g.github.io/main/images/dark.png');
+}
+
+#web_bg {
+  background-image: var(--desktop-bg-image-normal);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-size: cover;
+  transition: background-image 0.5s ease-in-out;
+}
