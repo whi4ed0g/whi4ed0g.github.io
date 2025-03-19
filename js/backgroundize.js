@@ -1,25 +1,23 @@
 /**
  * 获取当前主题模式 ('dark' 或 'light')
- * @returns {string} 当前的主题模式
+ * @returns {string} 当前主题模式
  */
 function getThemeMode() {
-  return localStorage.getItem('Fluid_Color_Scheme') || 'light'; // 默认是 light
+  const theme = localStorage.getItem('Fluid_Color_Scheme');
+  console.log('当前主题模式为：', theme);
+  return theme;
 }
 
 /**
  * 设置主题模式并更新 localStorage
- * @param {string} newTheme - 'light' 或 'dark'
+ * @param {string} newTheme - 目标主题（'light' 或 'dark'）
  */
 function setThemeMode(newTheme) {
   localStorage.setItem('Fluid_Color_Scheme', newTheme);
-  document.documentElement.setAttribute('data-theme', newTheme);
-  console.log('主题已切换为:', newTheme);
-
-  // **强制同步获取最新值**
-  setTimeout(() => {
-    console.log('确认存储的主题模式:', localStorage.getItem('Fluid_Color_Scheme'));
-    setBackgroundImage(newTheme);
-  }, 0); // 使用 `setTimeout` 确保数据存储后再读取
+  const updatedTheme = localStorage.getItem('Fluid_Color_Scheme');
+  console.log('更新后的主题模式为：', updatedTheme);
+  document.documentElement.setAttribute('data-theme', updatedTheme);
+  setBackgroundImage(updatedTheme);
 }
 
 /**
@@ -35,24 +33,28 @@ function setBackgroundImage(themeMode) {
     return;
   }
 
-  const bgImage = isMobile
-    ? themeMode === 'dark'
+  if (isMobile) {
+    webBgElement.style.backgroundImage = themeMode === 'dark'
       ? 'var(--mobile-bg-image-dark)'
-      : 'var(--mobile-bg-image-light)'
-    : themeMode === 'dark'
+      : 'var(--mobile-bg-image-light)';
+  } else {
+    webBgElement.style.backgroundImage = themeMode === 'dark'
       ? 'var(--desktop-bg-image-night)'
       : 'var(--desktop-bg-image-normal)';
+  }
 
-  webBgElement.style.backgroundImage = bgImage;
   console.log(`背景已更新为 ${themeMode} 模式`);
 }
 
 /**
- * 初始化背景图片设置
+ * 初始化背景图片设置（包含默认值初始化）
  */
 function initBackground() {
-  const theme = getThemeMode();
-  console.log('初始化时的主题模式:', theme);
+  let theme = getThemeMode();
+  if (!theme) {
+    theme = 'light';
+    localStorage.setItem('Fluid_Color_Scheme', theme);
+  }
   setBackgroundImage(theme);
 }
 
@@ -64,8 +66,8 @@ if (themeBtn) {
   themeBtn.addEventListener('click', () => {
     const currentTheme = getThemeMode();
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
     setThemeMode(newTheme);
+    console.log(`主题已切换为: ${newTheme}`);
   });
 } else {
   console.warn('⚠️ 未找到 #color-toggle-btn 按钮');
@@ -74,13 +76,11 @@ if (themeBtn) {
 // 初始化背景
 initBackground();
 
-// 监听窗口大小变化，做防抖处理调整背景
+// 监听窗口大小变化（防抖处理）
 let resizeTimeout;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
     setBackgroundImage(getThemeMode());
   }, 200);
-}, {
-  passive: true
-});
+}, { passive: true });
