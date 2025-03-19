@@ -1,23 +1,15 @@
 /**
- * 获取当前主题模式 ('dark' 或 'light')
- * @returns {string} 当前主题模式
+ * 返回当前的主题模式（'dark' 或 'light'）
+ * @returns {string} 当前的主题模式
  */
 function getThemeMode() {
-  const theme = localStorage.getItem('Fluid_Color_Scheme');
+  let theme = localStorage.getItem('Fluid_Color_Scheme');
+  if (!theme) {
+    theme = 'light'; // 默认使用浅色模式
+    localStorage.setItem('Fluid_Color_Scheme', theme);
+  }
   console.log('当前主题模式为：', theme);
   return theme;
-}
-
-/**
- * 设置主题模式并更新 localStorage
- * @param {string} newTheme - 目标主题（'light' 或 'dark'）
- */
-function setThemeMode(newTheme) {
-  localStorage.setItem('Fluid_Color_Scheme', newTheme);
-  const updatedTheme = localStorage.getItem('Fluid_Color_Scheme');
-  console.log('更新后的主题模式为：', updatedTheme);
-  document.documentElement.setAttribute('data-theme', updatedTheme);
-  setBackgroundImage(updatedTheme);
 }
 
 /**
@@ -29,54 +21,64 @@ function setBackgroundImage(themeMode) {
   const webBgElement = document.querySelector('#web_bg');
 
   if (!webBgElement) {
-    console.error('❌ 未找到 #web_bg 元素');
+    console.error("Error: #web_bg 元素未找到！");
     return;
   }
 
   if (isMobile) {
-    webBgElement.style.backgroundImage = themeMode === 'dark'
-      ? 'var(--mobile-bg-image-dark)'
-      : 'var(--mobile-bg-image-light)';
+    webBgElement.style.backgroundImage =
+      themeMode === 'dark' ? 'var(--mobile-bg-image-dark)' : 'var(--mobile-bg-image-light)';
   } else {
-    webBgElement.style.backgroundImage = themeMode === 'dark'
-      ? 'var(--desktop-bg-image-night)'
-      : 'var(--desktop-bg-image-normal)';
+    webBgElement.style.backgroundImage =
+      themeMode === 'dark' ? 'var(--desktop-bg-image-night)' : 'var(--desktop-bg-image-normal)';
   }
-
-  console.log(`背景已更新为 ${themeMode} 模式`);
 }
 
 /**
- * 初始化背景图片设置（包含默认值初始化）
+ * 初始化背景图片设置
  */
 function initBackground() {
-  let theme = getThemeMode();
-  if (!theme) {
-    theme = 'light';
-    localStorage.setItem('Fluid_Color_Scheme', theme);
-  }
+  const theme = getThemeMode();
   setBackgroundImage(theme);
 }
 
 /**
- * 监听主题切换按钮点击事件
+ * 处理主题切换
  */
-const themeBtn = document.querySelector('#color-toggle-btn');
-if (themeBtn) {
-  themeBtn.addEventListener('click', () => {
-    const currentTheme = getThemeMode();
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    setThemeMode(newTheme);
-    console.log(`主题已切换为: ${newTheme}`);
-  });
-} else {
-  console.warn('⚠️ 未找到 #color-toggle-btn 按钮');
+function toggleTheme() {
+  let currentTheme = getThemeMode();
+  let newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+  // 更新 localStorage 并重新设置背景
+  localStorage.setItem('Fluid_Color_Scheme', newTheme);
+  console.log('更新后的主题模式为：', newTheme);
+  setBackgroundImage(newTheme);
 }
 
-// 初始化背景
-initBackground();
+/**
+ * 重置 Banner 样式，隐藏背景图片和遮罩层
+ */
+function resetBannerStyles() {
+  let banner = document.querySelector("#banner");
+  let mask = document.querySelector("#banner .mask");
 
-// 监听窗口大小变化（防抖处理）
+  if (banner) banner.style.backgroundImage = 'none';
+  if (mask) mask.style.backgroundColor = 'rgba(0,0,0,0)';
+}
+
+// 监听主题切换按钮点击事件
+const themeBtn = document.querySelector('#color-toggle-btn');
+if (themeBtn) {
+  themeBtn.addEventListener('click', toggleTheme);
+}
+
+// 初始化背景和样式
+document.addEventListener("DOMContentLoaded", () => {
+  initBackground();
+  resetBannerStyles();
+});
+
+// 监听窗口大小变化，调整背景
 let resizeTimeout;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimeout);
