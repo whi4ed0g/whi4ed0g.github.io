@@ -86,24 +86,3 @@ window.addEventListener('resize', () => {
     setBackgroundImage(getThemeMode());
   }, 200);
 }, { passive: true });
-
-
-:root {
-  /* 移动端背景 */
-  --mobile-bg-image-light: url('https://raw.githubusercontent.com/whi4ed0g/whi4ed0g.github.io/main/images/light.png');
-  --mobile-bg-image-dark: url('https://raw.githubusercontent.com/whi4ed0g/whi4ed0g.github.io/main/images/dark.png');
-
-  /* 桌面端背景 */
-  --desktop-bg-image-normal: url('https://raw.githubusercontent.com/whi4ed0g/whi4ed0g.github.io/main/images/light.png');
-  --desktop-bg-image-night: url('https://raw.githubusercontent.com/whi4ed0g/whi4ed0g.github.io/main/images/dark.png');
-}
-
-#web_bg {
-  background-image: var(--desktop-bg-image-normal);
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background-size: cover;
-  transition: background-image 0.5s ease-in-out;
-}
