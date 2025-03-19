@@ -1,15 +1,9 @@
 /**
  * 获取当前主题模式 ('dark' 或 'light')
- * @returns {string} 当前的主题模式
+ * @returns {string} 当前主题模式
  */
 function getThemeMode() {
-  let theme = localStorage.getItem('Fluid_Color_Scheme');
-
-  if (!theme) {
-    theme = 'light'; // 默认是 light 模式
-    localStorage.setItem('Fluid_Color_Scheme', theme);
-  }
-
+  const theme = localStorage.getItem('Fluid_Color_Scheme');
   console.log('当前主题模式为：', theme);
   return theme;
 }
@@ -20,15 +14,10 @@ function getThemeMode() {
  */
 function setThemeMode(newTheme) {
   localStorage.setItem('Fluid_Color_Scheme', newTheme);
-
-  // **强制重新获取 localStorage，避免浏览器缓存问题**
-  setTimeout(() => {
-    let updatedTheme = localStorage.getItem('Fluid_Color_Scheme');
-    console.log('更新后的主题模式为：', updatedTheme);
-
-    document.documentElement.setAttribute('data-theme', updatedTheme);
-    setBackgroundImage(updatedTheme);
-  }, 10); // 延迟 10ms 确保 localStorage 正确存储
+  const updatedTheme = localStorage.getItem('Fluid_Color_Scheme');
+  console.log('更新后的主题模式为：', updatedTheme);
+  document.documentElement.setAttribute('data-theme', updatedTheme);
+  setBackgroundImage(updatedTheme);
 }
 
 /**
@@ -58,10 +47,14 @@ function setBackgroundImage(themeMode) {
 }
 
 /**
- * 初始化背景图片设置
+ * 初始化背景图片设置（包含默认值初始化）
  */
 function initBackground() {
-  const theme = getThemeMode();
+  let theme = getThemeMode();
+  if (!theme) {
+    theme = 'light';
+    localStorage.setItem('Fluid_Color_Scheme', theme);
+  }
   setBackgroundImage(theme);
 }
 
@@ -73,7 +66,6 @@ if (themeBtn) {
   themeBtn.addEventListener('click', () => {
     const currentTheme = getThemeMode();
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
     setThemeMode(newTheme);
     console.log(`主题已切换为: ${newTheme}`);
   });
@@ -84,13 +76,11 @@ if (themeBtn) {
 // 初始化背景
 initBackground();
 
-// 监听窗口大小变化，做防抖处理调整背景
+// 监听窗口大小变化（防抖处理）
 let resizeTimeout;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
     setBackgroundImage(getThemeMode());
   }, 200);
-}, {
-  passive: true
-});
+}, { passive: true });
