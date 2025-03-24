@@ -4,7 +4,8 @@
  */
 function getThemeMode() {
   /*const theme = localStorage.getItem('Fluid_Color_Scheme');*/
-  const theme = document.getElementById('color-toggle-icon');
+  const iconElement = document.getElementById('color-toggle-icon');
+  const theme = iconElement.className;
   console.log('当前主题模式为：', theme || 'dark');
   return theme === 'light' ? 'light' : 'dark';
 }
