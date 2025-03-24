@@ -5,9 +5,14 @@
 function getThemeMode() {
   /*const theme = localStorage.getItem('Fluid_Color_Scheme');*/
   const iconElement = document.getElementById('color-toggle-icon');
-  const theme = iconElement.className;
-  console.log('当前主题模式为：', theme || 'dark');
-  return theme === 'light' ? 'light' : 'dark';
+  const className = iconElement.className;
+  const classes.split(' ');
+  const themeClass = classes.find(c => c.startsWith('icon-'));
+  if (themeClass) {
+	const theme = themeClass.split('-')[1]; 
+	console.log('当前主题模式为：', theme || 'dark');
+	return theme === 'light' ? 'light' : 'dark';
+  }
 }
 
 /**
