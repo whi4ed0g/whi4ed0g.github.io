@@ -6,7 +6,7 @@ function getThemeMode() {
   /*const theme = localStorage.getItem('Fluid_Color_Scheme');*/
   const iconElement = document.getElementById('color-toggle-icon');
   const className = iconElement.className;
-  const classes.split(' ');
+  const classes = className.split(' ');
   const themeClass = classes.find(c => c.startsWith('icon-'));
   if (themeClass) {
 	const theme = themeClass.split('-')[1]; 
