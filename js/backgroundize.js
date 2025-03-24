@@ -3,7 +3,8 @@
  * @returns {string} 当前的主题模式
  */
 function getThemeMode() {
-  const theme = localStorage.getItem('Fluid_Color_Scheme');
+  /*const theme = localStorage.getItem('Fluid_Color_Scheme');*/
+  const theme = document.getElementById('color-toggle-icon');
   console.log('当前主题模式为：', theme || 'dark');
   return theme === 'light' ? 'light' : 'dark';
 }
