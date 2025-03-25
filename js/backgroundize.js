@@ -75,3 +75,20 @@ window.addEventListener('resize', () => {
   passive: true // 防止默认事件
 });
 
+
+// 为日夜切换功能添加对导航栏样式的控制，不修改原有代码，仅追加
+
+// 点击主题按钮时，额外切换导航栏的样式
+document.getElementById('color-toggle-btn').addEventListener('click', function() {
+  const navbar = document.getElementById('navbar');
+  
+  // 根据当前导航栏状态进行切换
+  if (navbar.classList.contains('navbar-night')) {
+    navbar.classList.remove('navbar-night');
+    navbar.classList.add('navbar-day');
+  } else {
+    navbar.classList.remove('navbar-day');
+    navbar.classList.add('navbar-night');
+  }
+});
+
