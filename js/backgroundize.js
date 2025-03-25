@@ -76,19 +76,19 @@ window.addEventListener('resize', () => {
 });
 
 
-// 为日夜切换功能添加对导航栏样式的控制，不修改原有代码，仅追加
+/* 日间模式导航栏样式：白底黑字 */
+.navbar-day {
+  background-color: #ffffff;
+}
+.navbar-day .nav-link {
+  color: #000000;
+}
 
-// 点击主题按钮时，额外切换导航栏的样式
-document.getElementById('color-toggle-btn').addEventListener('click', function() {
-  const navbar = document.getElementById('navbar');
-  
-  // 根据当前导航栏状态进行切换
-  if (navbar.classList.contains('navbar-night')) {
-    navbar.classList.remove('navbar-night');
-    navbar.classList.add('navbar-day');
-  } else {
-    navbar.classList.remove('navbar-day');
-    navbar.classList.add('navbar-night');
-  }
-});
+/* 夜间模式导航栏样式：黑底白字 */
+.navbar-night {
+  background-color: #000000;
+}
+.navbar-night .nav-link {
+  color: #ffffff;
+}
 
