@@ -75,20 +75,18 @@ window.addEventListener('resize', () => {
   passive: true // 防止默认事件
 });
 
-
-/* 日间模式导航栏样式：白底黑字 */
-.navbar-day {
-  background-color: #ffffff;
-}
-.navbar-day .nav-link {
-  color: #000000;
-}
-
-/* 夜间模式导航栏样式：黑底白字 */
-.navbar-night {
-  background-color: #000000;
-}
-.navbar-night .nav-link {
-  color: #ffffff;
-}
+// 新增的日夜切换导航栏样式代码（追加到已有 JS 文件末尾）
+// 注意：这里不重复声明 themeBtn 变量，直接使用 getElementById 获取元素
+document.getElementById('color-toggle-btn').addEventListener('click', function() {
+  const navbar = document.getElementById('navbar');
+  
+  // 切换导航栏的样式类
+  if (navbar.classList.contains('navbar-night')) {
+    navbar.classList.remove('navbar-night');
+    navbar.classList.add('navbar-day');
+  } else {
+    navbar.classList.remove('navbar-day');
+    navbar.classList.add('navbar-night');
+  }
+});
 

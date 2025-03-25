@@ -18,18 +18,18 @@
 }
 
 
-/* 日间模式导航栏样式 */
+/* 日间模式导航栏样式：白底黑字 */
 .navbar-day {
-  background-color: #ffffff; /* 白色背景 */
+  background-color: #ffffff !important;
 }
 .navbar-day .nav-link {
-  color: #333333; /* 深色文字 */
+  color: #000000 !important;
 }
 
-/* 夜间模式导航栏样式 */
+/* 夜间模式导航栏样式：黑底白字 */
 .navbar-night {
-  background-color: #333333; /* 深色背景 */
+  background-color: #000000 !important;
 }
 .navbar-night .nav-link {
-  color: #ffffff; /* 白色文字 */
+  color: #ffffff !important;
 }
