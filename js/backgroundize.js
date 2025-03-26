@@ -22,13 +22,18 @@ function getThemeMode() {
 function setBackgroundImage(themeMode) {
   const isMobile = window.innerWidth < 768;
   const webBgElement = document.querySelector('#web_bg');
-
+  const navbar = document.getElementById('navbar');
+  
   if (isMobile) {
     webBgElement.style.backgroundImage = `var(--mobile-bg-image)`;
   } else if (themeMode === 'dark') {
     webBgElement.style.backgroundImage = `var(--desktop-bg-image-night)`;
+	navbar.classList.remove('navbar-night');
+	navbar.classList.add('navbar-day');
   } else {
     webBgElement.style.backgroundImage = `var(--desktop-bg-image-normal)`;
+	navbar.classList.remove('navbar-day');
+	navbar.classList.add('navbar-night');
   }
 }
 
@@ -76,25 +81,4 @@ window.addEventListener('resize', () => {
 });
 
 
-(function() {
-  const navbar = document.getElementById('navbar');
-  if (!navbar.classList.contains('navbar-day') && !navbar.classList.contains('navbar-night')) {
-    navbar.classList.add('navbar-day');
-  }
-})();
-
-// 新增的日夜切换导航栏样式代码（追加到已有 JS 文件末尾）
-// 注意：这里不重复声明 themeBtn 变量，直接使用 getElementById 获取元素
-document.getElementById('color-toggle-btn').addEventListener('click', function() {
-  const navbar = document.getElementById('navbar');
-  
-  // 切换导航栏的样式类
-  if (navbar.classList.contains('navbar-night')) {
-    navbar.classList.remove('navbar-night');
-    navbar.classList.add('navbar-day');
-  } else {
-    navbar.classList.remove('navbar-day');
-    navbar.classList.add('navbar-night');
-  }
-});
 
