@@ -33,3 +33,13 @@
 .navbar-night .nav-link {
   color: #ffffff !important;
 }
+
+/* 日间模式下品牌文字样式 */
+.navbar-day .navbar-brand {
+  color: #000000 !important;
+}
+
+/* 夜间模式下品牌文字样式 */
+.navbar-night .navbar-brand {
+  color: #ffffff !important;
+}
