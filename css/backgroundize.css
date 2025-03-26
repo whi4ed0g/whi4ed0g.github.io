@@ -43,3 +43,14 @@
 .navbar-night .navbar-brand {
   color: #ffffff !important;
 }
+
+
+/* 日间模式下 banner 文本样式 */
+.banner-text-day {
+  color: #000000 !important;
+}
+
+/* 夜间模式下 banner 文本样式 */
+.banner-text-night {
+  color: #ffffff !important;
+}

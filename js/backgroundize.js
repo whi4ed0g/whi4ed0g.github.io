@@ -30,10 +30,18 @@ function setBackgroundImage(themeMode) {
     webBgElement.style.backgroundImage = `var(--desktop-bg-image-night)`;
 	navbar.classList.remove('navbar-day');
 	navbar.classList.add('navbar-night');
+	if(bannerText){
+      bannerText.classList.remove('banner-text-day');
+      bannerText.classList.add('banner-text-night');
+    }
   } else {
     webBgElement.style.backgroundImage = `var(--desktop-bg-image-normal)`;
 	navbar.classList.remove('navbar-night');
 	navbar.classList.add('navbar-day');
+	if(bannerText){
+      bannerText.classList.remove('banner-text-night');
+      bannerText.classList.add('banner-text-day');
+    }
   }
 }
 
