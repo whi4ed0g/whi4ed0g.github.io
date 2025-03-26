@@ -23,6 +23,7 @@ function setBackgroundImage(themeMode) {
   const isMobile = window.innerWidth < 768;
   const webBgElement = document.querySelector('#web_bg');
   const navbar = document.getElementById('navbar');
+  const bannerText = document.querySelector('.banner-text');
   
   if (isMobile) {
     webBgElement.style.backgroundImage = `var(--mobile-bg-image)`;
@@ -30,18 +31,15 @@ function setBackgroundImage(themeMode) {
     webBgElement.style.backgroundImage = `var(--desktop-bg-image-night)`;
 	navbar.classList.remove('navbar-day');
 	navbar.classList.add('navbar-night');
-	if(bannerText){
-      bannerText.classList.remove('banner-text-day');
-      bannerText.classList.add('banner-text-night');
-    }
+    bannerText.classList.remove('banner-text-day');
+    bannerText.classList.add('banner-text-night');
+
   } else {
     webBgElement.style.backgroundImage = `var(--desktop-bg-image-normal)`;
 	navbar.classList.remove('navbar-night');
 	navbar.classList.add('navbar-day');
-	if(bannerText){
-      bannerText.classList.remove('banner-text-night');
-      bannerText.classList.add('banner-text-day');
-    }
+    bannerText.classList.remove('banner-text-night');
+    bannerText.classList.add('banner-text-day');
   }
 }
 
