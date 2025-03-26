@@ -28,12 +28,12 @@ function setBackgroundImage(themeMode) {
     webBgElement.style.backgroundImage = `var(--mobile-bg-image)`;
   } else if (themeMode === 'dark') {
     webBgElement.style.backgroundImage = `var(--desktop-bg-image-night)`;
-	navbar.classList.remove('navbar-night');
-	navbar.classList.add('navbar-day');
-  } else {
-    webBgElement.style.backgroundImage = `var(--desktop-bg-image-normal)`;
 	navbar.classList.remove('navbar-day');
 	navbar.classList.add('navbar-night');
+  } else {
+    webBgElement.style.backgroundImage = `var(--desktop-bg-image-normal)`;
+	navbar.classList.remove('navbar-night');
+	navbar.classList.add('navbar-day');
   }
 }
 
