@@ -1,10 +1,11 @@
 :root {
   /* 移动端背景 */
-  --mobile-bg-image: url('https://raw.githubusercontent.com/whi4ed0g/whi4ed0g.github.io/main/images/dark.png');
+  --mobile-bg-image-dark: url('../images/dark.png');
+  --mobile-bg-image-light: url('../images/light.png')
 
   /* 桌面端背景 */
-  --desktop-bg-image-normal: url('https://raw.githubusercontent.com/whi4ed0g/whi4ed0g.github.io/main/images/light.png');
-  --desktop-bg-image-night: url('https://raw.githubusercontent.com/whi4ed0g/whi4ed0g.github.io/main/images/dark.png');
+  --desktop-bg-image-normal: url('../images/light.png');
+  --desktop-bg-image-night: url('../images/dark.png');
 }
 
 #web_bg {
