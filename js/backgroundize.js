@@ -26,18 +26,32 @@ function setBackgroundImage(themeMode) {
   const bannerText = document.querySelector('.banner-text');
   
   if (isMobile) {
-    webBgElement.style.backgroundImage = `var(--mobile-bg-image)`;
-  } else if (themeMode === 'dark') {
+    // —— 手机端也区分 light / dark
+    if (themeMode === 'dark') {
+      webBgElement.style.backgroundImage = `var(--mobile-bg-image-dark)`;
+      navbar.classList.remove('navbar-day');
+      navbar.classList.add('navbar-night');
+      bannerText.classList.remove('banner-text-day');
+      bannerText.classList.add('banner-text-night');
+    } else {
+      webBgElement.style.backgroundImage = `var(--mobile-bg-image-light)`;
+      navbar.classList.remove('navbar-night');
+      navbar.classList.add('navbar-day');
+      bannerText.classList.remove('banner-text-night');
+      bannerText.classList.add('banner-text-day');
+    }
+  }
+  else if (themeMode === 'dark') {
     webBgElement.style.backgroundImage = `var(--desktop-bg-image-night)`;
-	navbar.classList.remove('navbar-day');
-	navbar.classList.add('navbar-night');
+    navbar.classList.remove('navbar-day');
+    navbar.classList.add('navbar-night');
     bannerText.classList.remove('banner-text-day');
     bannerText.classList.add('banner-text-night');
-
-  } else {
+  } 
+  else {
     webBgElement.style.backgroundImage = `var(--desktop-bg-image-normal)`;
-	navbar.classList.remove('navbar-night');
-	navbar.classList.add('navbar-day');
+    navbar.classList.remove('navbar-night');
+    navbar.classList.add('navbar-day');
     bannerText.classList.remove('banner-text-night');
     bannerText.classList.add('banner-text-day');
   }
